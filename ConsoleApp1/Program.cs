@@ -10,11 +10,11 @@ namespace lr6_jo_hierarchy
     class Machine
     {
         public string model = "not name", engine = "not specified";
-        public double weight = 0.0;
+        public double weight = 1.0;
         public int year = 2018;
 
         public Machine(string model, string engine, 
-            int weight, int year)
+            double weight, int year)
         {
             this.model = model;
             this.engine = engine;
@@ -35,7 +35,8 @@ namespace lr6_jo_hierarchy
 
         public virtual string Info_mach
         {
-            get { return model + " " + weight + " tons, engine: " + engine + ", " + year + ", " + YearsOld + " years old" ; }
+            get { return model + " >>> " + weight + " tons, engine: " 
+                    + engine + ", " + year + ", " + YearsOld + " years old" ; }
         }
 
         public int YearsOld
@@ -71,7 +72,7 @@ namespace lr6_jo_hierarchy
             armament = Armament.armanent_not_defined;
         }
 
-        public Helicop(string model, string engine, int weight,
+        public Helicop(string model, string engine, double weight,
             int year, Armament armament)
             :base(model, engine, weight, year)
         {
@@ -98,7 +99,7 @@ namespace lr6_jo_hierarchy
 
         public Transmission transmission;
 
-        public Auto(string model, string engine, int weight, int year,
+        public Auto(string model, string engine, double weight, int year,
             Transmission transmission)
             :base(model, engine, weight, year)
         {
@@ -126,12 +127,65 @@ namespace lr6_jo_hierarchy
 
     class Car: Auto
     {
+        public enum Classification
+        {
+            hatchback,
+            sedan,
+            classification_not_defined
+        }
 
+        public Classification classification;
+
+        public Car()
+            : base()
+        {
+            classification = Classification.classification_not_defined;
+        }
+
+        public Car(string model)
+            : base(model)
+        {
+            classification = Classification.classification_not_defined;
+        }
+
+        public Car(string model, string engine, double weight, int year, Transmission transmission, Classification classification )
+            : base(model, engine, weight, year, transmission)
+        {
+            this.classification = classification;
+        }
+
+        public override string Info_mach
+        {
+            get { return base.Info_mach + ", " + classification.ToString(); }
+        }
     }
 
     class Lorry: Auto
     {
+        public double capacity;
 
+        public Lorry()
+            : base()
+        {
+            capacity = 1.0;
+        }
+
+        public Lorry(string model)
+            : base(model)
+        {
+            capacity = 1.0;
+        }
+
+        public Lorry(string model, string engine, double weight, int year, Transmission transmission, double capacity )
+            : base(model, engine, weight, year, transmission)
+        {
+            this.capacity = capacity;
+        }
+
+        public override string Info_mach
+        {
+            get { return base.Info_mach + ", \n Lifting capacity: " + capacity.ToString(); }
+        }
     }
     
 
@@ -154,6 +208,14 @@ namespace lr6_jo_hierarchy
 
             Auto third = new Auto("Lada", "gas", 100, 2007, Auto.Transmission.auto);
             Console.WriteLine(third.Info_mach);
+            Console.ReadKey();
+
+            Car fourth = new Car("Lada KALINA", "diesel", 1.2, 2011, Auto.Transmission.auto, Car.Classification.sedan);
+            Console.WriteLine(fourth.Info_mach);
+            Console.ReadKey();
+
+            Lorry fifth = new Lorry("BELAZ", "diesel", 360.0, 2014, Auto.Transmission.auto, 800.0);
+            Console.WriteLine(fifth.Info_mach);
             Console.ReadKey();
         }
     }
