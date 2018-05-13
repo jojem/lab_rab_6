@@ -35,7 +35,7 @@ namespace lr6_jo_hierarchy
 
         public virtual string Info_mach
         {
-            get { return model + " >>> " + weight + " tons, engine: " 
+            get { return model + " >>>   " + weight + " tons, engine: " 
                     + engine + ", " + year + ", " + YearsOld + " years old" ; }
         }
 
@@ -49,30 +49,30 @@ namespace lr6_jo_hierarchy
         }
     }
 
-    class Helicop: Machine
+    class Helicopter: Machine
     {
         public enum Armament
         {
             armed,
             unarmed,
-            armanent_not_defined
+            armament_not_defined
         }
         
         public Armament armament;
 
-        public Helicop()
+        public Helicopter()
             :base()
         {
-            armament = Armament.armanent_not_defined;
+            armament = Armament.armament_not_defined;
         }
 
-        public Helicop(string model)
+        public Helicopter(string model)
             : base(model)
         {
-            armament = Armament.armanent_not_defined;
+            armament = Armament.armament_not_defined;
         }
 
-        public Helicop(string model, string engine, double weight,
+        public Helicopter(string model, string engine, double weight,
             int year, Armament armament)
             :base(model, engine, weight, year)
         {
@@ -120,7 +120,7 @@ namespace lr6_jo_hierarchy
 
         public override string Info_mach
         {
-            get { return base.Info_mach + ", " + transmission.ToString(); }
+            get { return base.Info_mach + ", transmission: " + transmission.ToString(); }
         }
     }
 
@@ -184,7 +184,7 @@ namespace lr6_jo_hierarchy
 
         public override string Info_mach
         {
-            get { return base.Info_mach + ", \n Lifting capacity: " + capacity.ToString(); }
+            get { return base.Info_mach + ", Lifting capacity: " + capacity.ToString() + " tons"; }
         }
     }
     
@@ -194,28 +194,53 @@ namespace lr6_jo_hierarchy
     {
         static void Main(string[] args)
         {
+            Console.Title = "Vehicle";
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.Clear();
+
             Machine[] mas = new Machine[5];
 
+            mas[0] = new Machine("Tayota");
+            mas[1] = new Lorry("BELAZ", "diesel", 360.0,
+                2013, Auto.Transmission.auto, 800);
+            mas[2] = new Helicopter("Ka-50", "turbocharged", 10, 1991, Helicopter.Armament.armed);
+            mas[3] = new Helicopter("Mi-38", "gasturbine", 8.3, 2015, Helicopter.Armament.unarmed);
+            mas[4] = new Car("Hyundai Solaris", "gas", 1.5, 2010, Auto.Transmission.auto, Car.Classification.sedan);
+
+            for (int i = 0; i < mas.Length; i++)
+            {
+                Console.WriteLine($"==> {mas[i].GetType().Name} ");
+                Console.WriteLine(mas[i].Info_mach);
+                Console.WriteLine("______________________________");
+            }
+
+            Console.ReadKey();
 
 
             Machine first = new Machine("Granta");
+            Console.WriteLine("==> " + first.GetType().Name);
             Console.WriteLine(first.Info_mach);
+            Console.WriteLine("______________________________");
             Console.ReadKey();
 
-            Helicop second = new Helicop("Mi-8");
+            Helicopter second = new Helicopter("Mi-8");
+            Console.WriteLine("==> " + second.GetType().Name);
             Console.WriteLine(second.Info_mach);
+            Console.WriteLine("______________________________");
             Console.ReadKey();
 
-            Auto third = new Auto("Lada", "gas", 100, 2007, Auto.Transmission.auto);
+            Auto third = new Auto("Lada 21-10", "gas", 1.2, 2007, Auto.Transmission.mechanical);
+            Console.WriteLine("==> " + third.GetType().Name);
             Console.WriteLine(third.Info_mach);
+            Console.WriteLine("______________________________");
             Console.ReadKey();
 
-            Car fourth = new Car("Lada KALINA", "diesel", 1.2, 2011, Auto.Transmission.auto, Car.Classification.sedan);
+            Car fourth = new Car("Lada KALINA", "diesel", 1.2,
+                2011, Auto.Transmission.auto, Car.Classification.hatchback);
+            Console.WriteLine("==> " + fourth.GetType().Name);
             Console.WriteLine(fourth.Info_mach);
-            Console.ReadKey();
-
-            Lorry fifth = new Lorry("BELAZ", "diesel", 360.0, 2014, Auto.Transmission.auto, 800.0);
-            Console.WriteLine(fifth.Info_mach);
+            Console.WriteLine("______________________________");
             Console.ReadKey();
         }
     }
