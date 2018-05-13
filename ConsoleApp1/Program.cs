@@ -10,7 +10,8 @@ namespace lr6_jo_hierarchy
     class Machine
     {
         public string model = "not name", engine = "not specified";
-        public int year = 2018, weight = 0;
+        public int weight = 0;
+        private int year;
 
         public Machine(string model, string engine, int weight, int year)
         {
@@ -19,7 +20,8 @@ namespace lr6_jo_hierarchy
             this.weight = weight;
             this.year = year;
         }
-    
+
+     
         public Machine(string model)
         {
             this.model = model;
@@ -30,15 +32,26 @@ namespace lr6_jo_hierarchy
 
         }
 
-        public virtual string info_mach
+        public virtual string Info_mach
         {
-            get { return model + " " + year + " " + weight + " " + engine; }
+            get { return model + " " + weight + " " + engine; }
         }
+
+        public int YearsOld
+        {
+            get { return DateTime.Now.Year - year; }
+            set
+            {
+                year = DateTime.Now.Year - value;
+            }
+        }
+
+
     }
 
     class Helicop: Machine
     {
-
+      
     }
 
     class Auto: Machine
