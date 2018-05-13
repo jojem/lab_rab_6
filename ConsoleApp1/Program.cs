@@ -10,10 +10,11 @@ namespace lr6_jo_hierarchy
     class Machine
     {
         public string model = "not name", engine = "not specified";
-        public int weight = 0;
-        private int year = 2018;
+        public double weight = 0.0;
+        public int year = 2018;
 
-        public Machine(string model, string engine, int weight, int year)
+        public Machine(string model, string engine, 
+            int weight, int year)
         {
             this.model = model;
             this.engine = engine;
@@ -34,7 +35,7 @@ namespace lr6_jo_hierarchy
 
         public virtual string Info_mach
         {
-            get { return model + " " + weight + " " + engine; }
+            get { return model + " " + weight + " tons, engine: " + engine + ", " + year + ", " + YearsOld + " years old" ; }
         }
 
         public int YearsOld
@@ -45,8 +46,6 @@ namespace lr6_jo_hierarchy
                 year = DateTime.Now.Year - value;
             }
         }
-
-
     }
 
     class Helicop: Machine
@@ -55,7 +54,7 @@ namespace lr6_jo_hierarchy
         {
             armed,
             unarmed,
-            without_classification
+            armanent_not_defined
         }
         
         public Armament armament;
@@ -63,16 +62,17 @@ namespace lr6_jo_hierarchy
         public Helicop()
             :base()
         {
-            armament = Armament.without_classification;
+            armament = Armament.armanent_not_defined;
         }
 
         public Helicop(string model)
             : base(model)
         {
-            armament = Armament.without_classification;
+            armament = Armament.armanent_not_defined;
         }
 
-        public Helicop(string model, string engine, int weight, int year, Armament armament)
+        public Helicop(string model, string engine, int weight,
+            int year, Armament armament)
             :base(model, engine, weight, year)
         {
             this.armament = armament;
@@ -89,7 +89,38 @@ namespace lr6_jo_hierarchy
 
     class Auto: Machine
     {
+        public enum Transmission
+        {
+            auto, 
+            mechanical,
+            unknown_transmission
+        }
 
+        public Transmission transmission;
+
+        public Auto(string model, string engine, int weight, int year,
+            Transmission transmission)
+            :base(model, engine, weight, year)
+        {
+            this.transmission = transmission;
+        }
+
+        public Auto(string model)
+            : base(model)
+        {
+            transmission = Transmission.unknown_transmission;
+        }
+
+        public Auto()
+            : base()
+        {
+            transmission = Transmission.unknown_transmission;
+        }
+
+        public override string Info_mach
+        {
+            get { return base.Info_mach + ", " + transmission.ToString(); }
+        }
     }
 
 
@@ -119,6 +150,10 @@ namespace lr6_jo_hierarchy
 
             Helicop second = new Helicop("Mi-8");
             Console.WriteLine(second.Info_mach);
+            Console.ReadKey();
+
+            Auto third = new Auto("Lada", "gas", 100, 2007, Auto.Transmission.auto);
+            Console.WriteLine(third.Info_mach);
             Console.ReadKey();
         }
     }
