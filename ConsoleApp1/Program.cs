@@ -11,7 +11,7 @@ namespace lr6_jo_hierarchy
     {
         public string model = "not name", engine = "not specified";
         public int weight = 0;
-        private int year;
+        private int year = 2018;
 
         public Machine(string model, string engine, int weight, int year)
         {
@@ -51,7 +51,40 @@ namespace lr6_jo_hierarchy
 
     class Helicop: Machine
     {
-      
+        public enum Armament
+        {
+            armed,
+            unarmed,
+            without_classification
+        }
+        
+        public Armament armament;
+
+        public Helicop()
+            :base()
+        {
+            armament = Armament.without_classification;
+        }
+
+        public Helicop(string model)
+            : base(model)
+        {
+            armament = Armament.without_classification;
+        }
+
+        public Helicop(string model, string engine, int weight, int year, Armament armament)
+            :base(model, engine, weight, year)
+        {
+            this.armament = armament;
+        }
+
+        public override string Info_mach
+        {
+            get
+            {
+                return base.Info_mach + ", " + armament.ToString();
+            }
+        }
     }
 
     class Auto: Machine
@@ -76,7 +109,17 @@ namespace lr6_jo_hierarchy
     {
         static void Main(string[] args)
         {
+            Machine[] mas = new Machine[5];
 
+
+
+            Machine first = new Machine("Granta");
+            Console.WriteLine(first.Info_mach);
+            Console.ReadKey();
+
+            Helicop second = new Helicop("Mi-8");
+            Console.WriteLine(second.Info_mach);
+            Console.ReadKey();
         }
     }
 }
